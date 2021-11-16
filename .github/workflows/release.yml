@@ -71,6 +71,7 @@ jobs:
           prerelease: false
 
       - name: Publish to PyPi
+        if: ${{ steps.semantic_release_info.outputs.git_tag }}
         env:
           TWINE_USERNAME: __token__
           TWINE_PASSWORD: ${{ secrets.PYPI_TOKEN }}
