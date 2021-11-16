@@ -1,5 +1,5 @@
 # ChainJacking
-A tool to scan your direct GitHub dependencies for Go and find ones susceptible to ChainJacking attack
+Find which of your go lang direct GitHub dependencies is susceptible to ChainJacking attack
 
 ### Requirements
 - Go and it's binaries >= 1.13
