@@ -1,6 +1,6 @@
 {
   "name": "chainjacking",
-  "version": "v1.0.1",
+  "version": "v1.1.0",
   "description": "A tool to scan your direct GitHub dependencies for Go and find ones susceptible to ChainJacking attack",
   "homepage": "https://github.com/checkmarx/chainjacking",
   "author_email": "lior.kaplan@checkmarx.com",

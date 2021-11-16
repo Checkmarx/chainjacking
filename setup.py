@@ -18,6 +18,7 @@ package_url = package_json['homepage']
 package_author_name = package_json['author_name']
 package_author_email = package_json['author_email']
 package_tags = package_json['tags']
+package_license = package_json['license']
 
 with open(path.join(SCRIPT_DIR, 'README.md'), encoding='utf-8') as f:
     long_description = f.read()
@@ -32,7 +33,7 @@ setup(
     url=package_url,
     author=package_author_name,
     author_email=package_author_email,
-    license='ISC',
+    license=package_license,
     test_suite='tests',
     keywords=package_tags,
     packages=[package_name],
