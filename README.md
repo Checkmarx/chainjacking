@@ -5,7 +5,8 @@ ChainJacking is a tool to find which of your Go lang direct GitHub dependencies 
 #### Requirements
 - Python 3.6+ and pip
 - Go and it's binaries >= 1.13
-- GitHub token, to run queries on GitHub API 
+- GitHub token (for API queries) 
+  - 💡 This token is used for read only purposes and does not require any permissions 
 
 #### Installation
 ```
