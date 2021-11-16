@@ -1,0 +1,74 @@
+name: Release
+
+on:
+  push:
+    branches: [ master ]
+
+
+jobs:
+  build:
+    name: Build and Release
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - uses: actions/setup-python@v2
+        with:
+          python-version: '3.9'
+      - name: Gets semantic release info
+        id: semantic_release_info
+        uses: jossef/action-semantic-release-info@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Build
+        if: ${{ steps.semantic_release_info.outputs.git_tag }}
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install setuptools wheel twine
+          python -m pip install -r requirements.txt
+          python setup.py test
+          python setup.py sdist bdist_wheel
+
+      - name: Update package.json version
+        if: ${{ steps.semantic_release_info.outputs.git_tag }}
+        uses: jossef/action-set-json-field@v1
+        with:
+          file: package.json
+          field: version
+          value: ${{ steps.semantic_release_info.outputs.git_tag }}
+
+      - name: Commit and push files
+        id: commit_and_push
+        if: ${{ steps.semantic_release_info.outputs.git_tag }}
+        run: |
+          git config --local user.email "devops@dusti.co"
+          git config --local user.name "Dustico DevOps"
+          git add package.json
+          git commit -m "ci: bumping release ${{ steps.semantic_release_info.outputs.git_tag }}"
+          git tag ${{ steps.semantic_release_info.outputs.git_tag }}
+          git push
+          echo ::set-output name=latest_commit_hash::$(git rev-parse HEAD)
+
+      - name: Create GitHub Release
+        if: ${{ steps.semantic_release_info.outputs.git_tag }}
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ steps.semantic_release_info.outputs.git_tag }}
+          release_name: ${{ steps.semantic_release_info.outputs.git_tag }}
+          body: ${{ steps.semantic_release_info.outputs.notes }}
+          commitish: ${{ steps.commit_and_push.outputs.latest_commit_hash }}
+          draft: false
+          prerelease: false
+
+      - name: Publish to PyPi
+        env:
+          TWINE_USERNAME: __token__
+          TWINE_PASSWORD: ${{ secrets.PYPI_TOKEN }}
+        run: |
+          twine upload dist/*
