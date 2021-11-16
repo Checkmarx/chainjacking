@@ -37,6 +37,6 @@ setup(
     test_suite='tests',
     keywords=package_tags,
     packages=[package_name],
-    setup_requires=[dependencies],
-    install_requires=[]
+    setup_requires=[],
+    install_requires=[dependencies]
 )
