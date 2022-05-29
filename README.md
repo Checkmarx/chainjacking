@@ -1,6 +1,9 @@
 ![readme cover image](https://user-images.githubusercontent.com/1287098/142020269-af916c4d-7c66-4893-a030-daa4113e00f4.png)
 
-ChainJacking is a tool to find which of your Go lang direct GitHub dependencies is susceptible to ChainJacking attack. Read more about it [here](https://checkmarx.com/blog/a-new-type-of-supply-chain-attack-could-put-popular-admin-tools-at-risk/)
+ChainJacking is a tool to find which of your Go lang direct GitHub dependencies is susceptible to RepoJacking attack. Read more about it [here](https://checkmarx.com/blog/a-new-type-of-supply-chain-attack-could-put-popular-admin-tools-at-risk/)
+
+[![repojacking explained](https://img.youtube.com/vi/xrafnrkKfEg/0.jpg)](https://www.youtube.com/watch?v=xrafnrkKfEg)
+
 
 #### Requirements
 - Python 3.6+ and pip
