@@ -8,19 +8,19 @@ on:
 jobs:
   build:
     name: Build and Release
-    runs-on: ubuntu-latest
+    runs-on: cx-public-ubuntu-x64
     steps:
       - name: Checkout code
-        uses: actions/checkout@v2
+        uses: actions/checkout@ee0669bd1cc54295c223e0bb666b733df41de1c5 # v2.7.0
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
 
-      - uses: actions/setup-python@v2
+      - uses: actions/setup-python@e9aba2c848f5ebd159c070c61ea2c4e2b122355e # v2.3.4
         with:
           python-version: '3.9'
       - name: Gets semantic release info
         id: semantic_release_info
-        uses: jossef/action-semantic-release-info@v1
+        uses: jossef/action-semantic-release-info@d49ea8e1b0e2d5820a8d49f0dffc1a39ddf5da7c # v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
@@ -34,7 +34,7 @@ jobs:
 
       - name: Update package.json version
         if: ${{ steps.semantic_release_info.outputs.git_tag }}
-        uses: jossef/action-set-json-field@v1
+        uses: jossef/action-set-json-field@6e6d7e639f24b3955ef682815317b5613ac6ca12 # v1
         with:
           file: package.json
           field: version
@@ -59,7 +59,7 @@ jobs:
 
       - name: Create GitHub Release
         if: ${{ steps.semantic_release_info.outputs.git_tag }}
-        uses: actions/create-release@v1
+        uses: actions/create-release@0cb9c9b65d5d1901c1f53e5e66eaf4afd303e70e # v1.1.4
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
